@@ -6,20 +6,14 @@ namespace Game
 {
     class Program
     {
-        int count = 0;
         static void Main(string[] args)
         {
-            Window window = new Window(
-                new VideoMode(WindowOptions.Width, WindowOptions.Height), 
-                WindowOptions.Title
-            );
-
+            RenderWindow window = WindowOptions.Window;
             WindowOptions.AddGlobalEvents(window);
 
             while (window.IsOpen) 
             {
                 window.DispatchEvents();
-                
             }
         }
     }
@@ -33,14 +27,18 @@ namespace Game
     interface Visual {
         Color Color { get; set; }
         Shape Shape { get; set; }
-        int x { get; set; }
-        int y { get; set; }
+        int X { get; set; }
+        int Y { get; set; }
     }
 
     class WindowOptions {
         public static uint Height = 600;
         public static uint Width = 800;
+
+        public static VideoMode VMode = new VideoMode(Width, Height);
         public static string Title = "Hello friend!";
+
+        public static RenderWindow Window = new RenderWindow(VMode, Title);
 
         public static void AddGlobalEvents(Window window) {
             window.Closed += (sender, e) => {(sender as Window).Close();};
