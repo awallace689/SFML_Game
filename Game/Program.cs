@@ -10,7 +10,6 @@ namespace Game
   {
     static void Main(string[] args)
     {
-      Game Game = new Game();
       Game.Run();
     }
   }

@@ -5,7 +5,7 @@ namespace Game
 {
     public class Game
     {
-        public void Run() {
+        public static void Run() {
             RenderWindow window = WindowOptions.Window;
             WindowOptions.AddGlobalEvents(window);
 
