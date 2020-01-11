@@ -1,8 +1,4 @@
-﻿using System;
-using SFML.Window;
-using SFML.Graphics;
-using Game;
-using Game.Components;
+﻿using Game.Components;
 
 namespace Game
 {
