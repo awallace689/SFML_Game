@@ -1,79 +1,80 @@
 using System;
 using Game.Components;
 using SFML.Graphics;
+using SFML.Window;
 using SFML.System;
 
 namespace Game
 {
-    public class Game
+  public class Game
+  {
+    public static void Run()
     {
+      RenderWindow window = WindowOptions.Window;
+      
+      Clock c = new Clock();
+      Time dTime = Time.FromSeconds(0);
+      
+      Stage Stage = new Stage();
+      Player Player = new Player();
 
-        public static void Run() {
-            RenderWindow window = WindowOptions.Window;
-            WindowOptions.AddGlobalEvents(window);
-            Clock c = new Clock();
-            Time dTime = Time.FromSeconds(0);
-            Stage Stage = new Stage();
+      WindowOptions.AddGlobalEvents(window);
+      
+      // Open
+      while (window.IsOpen)
+      {
+        c.Restart();
+        window.DispatchEvents();
+        c.Restart();
 
-            // Open
-            while (window.IsOpen)
-            {
-                window.Clear(Color.White);
-                c.Restart();
-                window.DispatchEvents();
-                c.Restart();
-
-                // In Focus
-                while (WindowOptions.InFocus && window.IsOpen) 
-                {
-                    window.DispatchEvents();
-
-                    // Delay Exceeded
-                    if (c.ElapsedTime.AsMilliseconds() >= WindowOptions.Delay)
-                    {
-                        window.DispatchEvents();
-                        window.Clear(Color.Cyan);
-                        window.Draw(Stage.Shape);
-                        
-                        window.Display();
-                        dTime = c.Restart();
-                    }
-                }
-                window.Display();
-            }
-        }
-    }
-
-    class Entity {
-        private int count = 0;
-        public float Velocity = 1;
-        public Shape Shape;
-
-        public Entity() {
-            Shape = new CircleShape(50);
-            Shape.FillColor = Color.Green;
-        }
-
-        public void move(Time dTime)
+        // In Focus
+        while (WindowOptions.InFocus && window.IsOpen)
         {
-            if (count < 10) {
-                Shape.Position += new Vector2f(Velocity * (dTime.AsMilliseconds() / WindowOptions.Delay), 0);
-                count++;
-            }
-            else {
-                Shape.Position = new Vector2f(0, Shape.Position.Y);
-                count = 0;
-            }
+          window.DispatchEvents();
+
+          // Delay Exceeded
+          if (c.ElapsedTime.AsMilliseconds() >= WindowOptions.Delay)
+          {
+            window.DispatchEvents();
+            window.Clear(Color.Cyan);
+
+            window.Draw(Stage.Shape);
+            window.Draw(Player.Shape);
+            HandleInput(Player, dTime);
+            window.Display();
+            dTime = c.Restart();
+          }
         }
+        window.Display();
+      }
     }
 
-    class Stage {
-        public Shape Shape;
-        private int height = 100;
-        public Stage() {
-            Shape = new RectangleShape(new Vector2f(WindowOptions.Width, height));
-            Shape.Position = new Vector2f(0, WindowOptions.Height - height);
-            Shape.FillColor = Color.Green;
-        }
+    static void HandleInput(Player player, Time dTime) {
+      if (
+        SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.A)
+        && !SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D)) 
+      {
+        player.Transformer.MoveLeft(dTime, player.Transformer.Velocity);
+      }
+      else if (
+        SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.D)
+        && !SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.A)) 
+      {
+        player.Transformer.MoveRight(dTime, player.Transformer.Velocity);
+      }
+
+      if (
+        SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.W)
+        && !SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.S)) 
+      {
+        player.Transformer.MoveUp(dTime, player.Transformer.Velocity);
+      }
+      else if (
+        SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.S)
+        && !SFML.Window.Keyboard.IsKeyPressed(SFML.Window.Keyboard.Key.W)) 
+      {
+        player.Transformer.MoveDown(dTime, player.Transformer.Velocity);
+      }
     }
+  }  
 }

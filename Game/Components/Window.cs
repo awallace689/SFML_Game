@@ -1,6 +1,8 @@
 using System;
-using SFML.Window;
+using Game.Components;
 using SFML.Graphics;
+using SFML.Window;
+using SFML.System;
 
 namespace Game.Components
 {
@@ -10,7 +12,7 @@ namespace Game.Components
     public static uint Width = 800;
     public static bool InFocus = true;
 
-    public static int Delay = 16;
+    public static int Delay = 14;
 
     public static VideoMode VMode = new VideoMode(Width, Height);
     public static string Title = "Hello friend!";
@@ -29,7 +31,6 @@ namespace Game.Components
       window.Closed += (sender, e) => { (sender as Window).Close(); };
       window.LostFocus += (sender, e) => { WindowOptions.InFocus = false; };
       window.GainedFocus += (sender, e) => { WindowOptions.InFocus = true; };
-      window.TextEntered += (sender, e) => { Console.WriteLine("Yo"); };
     }
   }
 }
