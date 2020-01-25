@@ -1,5 +1,7 @@
+Properties/
 obj/
 !/project.assets.json
 .vs/
 .vscode/
 bin/
+*.csproj.user

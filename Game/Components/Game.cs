@@ -9,8 +9,8 @@ namespace Game
 {
   public class Game
   {
-    public static float MAX_MOVEMENT = 3.0f;
-    public static float MOVE_VEL_INCREMENT = 0.1f;
+    public static float PlAYER_MOVE_MAX = 8.0f;
+    public static float PLAYER_MOVE_ACCEL = 0.3f;
     public static void Run()
     {
       RenderWindow Window = WindowOptions.Window;
@@ -21,8 +21,8 @@ namespace Game
       StageEntity Stage = new StageEntity();
       PlayerEntity Player = new PlayerEntity();
 
-      List<IEntity> EntityList = new List<IEntity>();
-      EntityList.Add(Player);
+      List<IActor> ActorList = new List<IActor>();
+      ActorList.Add(Player);
 
       List<IStaticEntity> StaticEntityList = new List<IStaticEntity>();
       StaticEntityList.Add(Stage);
@@ -49,53 +49,77 @@ namespace Game
 
             Window.Draw(Stage.Shape);
             Window.Draw(Player.Shape);
+
+            foreach (IActor actor in ActorList)
+            {
+              while (actor.Flags.Count > 0)
+              {
+                actor.Flags.Clear();
+              }
+            }
+            
             HandleInput(Player, dTime);
 
-            Player.Shape.Position += Player.Transformer.Velocity.Vector;
+            foreach (IActor actor in ActorList)
+            {
+              Physics.Update(actor, dTime);
+            }
+            
+            foreach (IActor actor in ActorList) 
+            {
+              actor.Shape.Position += actor.Transformer.Velocity.Vector;
+            }
 
             Window.Display();
             dTime = c.Restart();
           }
         }
+
         Window.Display();
       }
     }
 
+    static void RunLoopEvents(IEntity entity)
+    {
+
+    }
+
     static void HandleInput(PlayerEntity player, Time dTime)
     {
-      if (
-       Keyboard.IsKeyPressed(Keyboard.Key.A)
+      if (Keyboard.IsKeyPressed(Keyboard.Key.A)
         && !Keyboard.IsKeyPressed(Keyboard.Key.D))
       {
         player.Transformer.Velocity.Apply(
           dTime,
-          MOVE_VEL_INCREMENT,
-          -MAX_MOVEMENT,
+          PLAYER_MOVE_ACCEL,
+          -PlAYER_MOVE_MAX,
           0,
           0,
           float.NegativeInfinity,
           float.PositiveInfinity,
-          player.Transformer.MoveLeft
+          MovementActions.MoveLeft
         );
+
+        player.Flags.Add(EntityFlags.IGNORE_FRICTION);
       }
-      else if (
-        Keyboard.IsKeyPressed(Keyboard.Key.D)
+      else if (Keyboard.IsKeyPressed(Keyboard.Key.D)
         && !Keyboard.IsKeyPressed(Keyboard.Key.A))
       {
         player.Transformer.Velocity.Apply(
           dTime,
-          MOVE_VEL_INCREMENT,
+          PLAYER_MOVE_ACCEL,
           0,
-          MAX_MOVEMENT,
+          PlAYER_MOVE_MAX,
           0,
           float.NegativeInfinity,
           float.PositiveInfinity,
-          player.Transformer.MoveRight
+          MovementActions.MoveRight
         );
+
+        player.Flags.Add(EntityFlags.IGNORE_FRICTION);
       }
 
-      if (
-        Keyboard.IsKeyPressed(Keyboard.Key.W)
+      if (Keyboard.IsKeyPressed(Keyboard.Key.W)
         && !Keyboard.IsKeyPressed(Keyboard.Key.S))
       {
         player.Transformer.Velocity.Apply(
@@ -103,14 +127,15 @@ namespace Game
           0,
           float.NegativeInfinity,
           float.PositiveInfinity,
-          MOVE_VEL_INCREMENT,
-          -MAX_MOVEMENT,
+          PLAYER_MOVE_ACCEL,
+          -PlAYER_MOVE_MAX,
           0,
-          player.Transformer.MoveUp
+          MovementActions.MoveUp
         );
+
+        player.Flags.Add(EntityFlags.IGNORE_GRAVITY);
       }
-      else if (
-        Keyboard.IsKeyPressed(Keyboard.Key.S)
+      else if (Keyboard.IsKeyPressed(Keyboard.Key.S)
         && !Keyboard.IsKeyPressed(Keyboard.Key.W))
       {
         player.Transformer.Velocity.Apply(
@@ -118,11 +143,13 @@ namespace Game
           0,
           float.NegativeInfinity,
           float.PositiveInfinity,
-          MOVE_VEL_INCREMENT,
+          PLAYER_MOVE_ACCEL,
           0,
-          MAX_MOVEMENT,
-          player.Transformer.MoveDown
+          PlAYER_MOVE_MAX,
+          MovementActions.MoveDown
         );
+
+        player.Flags.Add(EntityFlags.IGNORE_GRAVITY);
       }
     }
   }

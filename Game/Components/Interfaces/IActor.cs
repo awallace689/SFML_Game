@@ -8,8 +8,10 @@ using System.Collections.Generic;
 
 namespace Game.Components
 {
-  public interface IEntityShape
-  {
-    
-  }
+    interface IActor
+    {
+      Shape Shape { get; set; }
+      IActorTransformer Transformer { get; set; }
+      HashSet<EntityFlags> Flags { get; }
+    }
 }

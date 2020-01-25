@@ -6,6 +6,44 @@ using System.Collections.Generic;
 
 namespace Game.Components
 {
+
+  static class Physics
+  {
+    public static float GravityMagnitude = 0.3f;
+    public static float FrictionMagnitude = 0.5f;
+    public static void Update(IActor actor, Time dTime) 
+    {
+      if (!actor.Flags.Contains(EntityFlags.IGNORE_FRICTION))
+      {
+        if (actor.Transformer.Velocity.Vector.X > 0) {
+          actor.Transformer.Velocity.Apply(
+             dTime,
+             FrictionMagnitude,
+             0,
+             float.PositiveInfinity,
+             0,
+             float.NegativeInfinity,
+             float.PositiveInfinity,
+             MovementActions.MoveLeft
+          );
+        }
+        else if (actor.Transformer.Velocity.Vector.X < 0)
+        {
+          actor.Transformer.Velocity.Apply(
+            dTime,
+            FrictionMagnitude,
+            float.NegativeInfinity,
+            0,
+            0,
+            float.NegativeInfinity,
+            float.PositiveInfinity,
+            MovementActions.MoveRight
+          );
+        }
+      }
+    }
+
+  }
   public class VelocityVec
   {
     public Vector2f Vector = new Vector2f(0, 0);

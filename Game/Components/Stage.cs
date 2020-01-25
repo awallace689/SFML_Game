@@ -3,11 +3,14 @@ using Game.Components;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Game.Components
 {
   class StageEntity : IStaticEntity
   {
+    public HashSet<EntityFlags> Flags { get; }
     public Shape Shape { get; set; }
     private int height = 100;
     public StageEntity()

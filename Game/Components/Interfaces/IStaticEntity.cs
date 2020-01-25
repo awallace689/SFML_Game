@@ -3,11 +3,14 @@ using Game.Components;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Game.Components
 {
-  public interface IStaticEntity
+  interface IStaticEntity : IEntity
   {
     Shape Shape { get; set; }
+    HashSet<EntityFlags> Flags { get; }
   }
 }

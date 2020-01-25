@@ -8,8 +8,8 @@ using System.Collections.Generic;
 
 namespace Game.Components
 {
-  public interface IEntityShape
-  {
-    
-  }
+    public interface IActorTransformer
+    {
+      public VelocityVec Velocity { get; set; }
+    }
 }
