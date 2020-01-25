@@ -17,13 +17,14 @@ namespace Game.Components
     public static VideoMode VMode = new VideoMode(Width, Height);
     public static string Title = "Hello friend!";
 
-    public static RenderWindow Window 
-    { 
-        get {
-            RenderWindow window = new RenderWindow(VMode, Title);
-            window.SetVerticalSyncEnabled(true);
-            return window;
-        }
+    public static RenderWindow Window
+    {
+      get
+      {
+        RenderWindow window = new RenderWindow(VMode, Title);
+        window.SetVerticalSyncEnabled(true);
+        return window;
+      }
     }
 
     public static void AddGlobalEvents(Window window)

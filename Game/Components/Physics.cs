@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Game.Components
 {
-    public class VelocityVec
+  public class VelocityVec
   {
     public Vector2f Vector = new Vector2f(0, 0);
     public delegate Vector2f Transform(Time dTime, Vector2f vec, float xConst, float yConst);

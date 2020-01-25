@@ -14,19 +14,21 @@ namespace Game
     public static void Run()
     {
       RenderWindow Window = WindowOptions.Window;
-      
+
       Clock c = new Clock();
       Time dTime = Time.FromSeconds(0);
-      
-      Stage Stage = new Stage();
-      Player Player = new Player();
+
+      StageEntity Stage = new StageEntity();
+      PlayerEntity Player = new PlayerEntity();
 
       List<IEntity> EntityList = new List<IEntity>();
-      EntityList.Add(Stage);
       EntityList.Add(Player);
 
+      List<IStaticEntity> StaticEntityList = new List<IStaticEntity>();
+      StaticEntityList.Add(Stage);
+
       WindowOptions.AddGlobalEvents(Window);
-      
+
       // Open
       while (Window.IsOpen)
       {
@@ -59,68 +61,69 @@ namespace Game
       }
     }
 
-    static void HandleInput(Player player, Time dTime) {
+    static void HandleInput(PlayerEntity player, Time dTime)
+    {
       if (
        Keyboard.IsKeyPressed(Keyboard.Key.A)
-        && !Keyboard.IsKeyPressed(Keyboard.Key.D)) 
+        && !Keyboard.IsKeyPressed(Keyboard.Key.D))
       {
         player.Transformer.Velocity.Apply(
           dTime,
           MOVE_VEL_INCREMENT,
-          -MAX_MOVEMENT, 
+          -MAX_MOVEMENT,
           0,
-          0, 
-          float.NegativeInfinity, 
-          float.PositiveInfinity, 
-          player.Transformer.MoveLeft 
+          0,
+          float.NegativeInfinity,
+          float.PositiveInfinity,
+          player.Transformer.MoveLeft
         );
       }
       else if (
         Keyboard.IsKeyPressed(Keyboard.Key.D)
-        && !Keyboard.IsKeyPressed(Keyboard.Key.A)) 
+        && !Keyboard.IsKeyPressed(Keyboard.Key.A))
       {
         player.Transformer.Velocity.Apply(
           dTime,
           MOVE_VEL_INCREMENT,
-          0, 
+          0,
           MAX_MOVEMENT,
-          0, 
-          float.NegativeInfinity, 
-          float.PositiveInfinity, 
-          player.Transformer.MoveRight 
+          0,
+          float.NegativeInfinity,
+          float.PositiveInfinity,
+          player.Transformer.MoveRight
         );
       }
 
       if (
         Keyboard.IsKeyPressed(Keyboard.Key.W)
-        && !Keyboard.IsKeyPressed(Keyboard.Key.S)) 
+        && !Keyboard.IsKeyPressed(Keyboard.Key.S))
       {
         player.Transformer.Velocity.Apply(
           dTime,
           0,
-          float.NegativeInfinity, 
-          float.PositiveInfinity, 
-          MOVE_VEL_INCREMENT, 
-          -MAX_MOVEMENT, 
-          0, 
-          player.Transformer.MoveUp 
+          float.NegativeInfinity,
+          float.PositiveInfinity,
+          MOVE_VEL_INCREMENT,
+          -MAX_MOVEMENT,
+          0,
+          player.Transformer.MoveUp
         );
       }
       else if (
         Keyboard.IsKeyPressed(Keyboard.Key.S)
-        && !Keyboard.IsKeyPressed(Keyboard.Key.W)) 
+        && !Keyboard.IsKeyPressed(Keyboard.Key.W))
       {
         player.Transformer.Velocity.Apply(
           dTime,
           0,
-          float.NegativeInfinity, 
-          float.PositiveInfinity, 
-          MOVE_VEL_INCREMENT, 
-          0, 
-          MAX_MOVEMENT, 
-          player.Transformer.MoveDown 
+          float.NegativeInfinity,
+          float.PositiveInfinity,
+          MOVE_VEL_INCREMENT,
+          0,
+          MAX_MOVEMENT,
+          player.Transformer.MoveDown
         );
       }
     }
-  }  
+  }
 }

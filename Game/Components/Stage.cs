@@ -6,11 +6,11 @@ using SFML.System;
 
 namespace Game.Components
 {
-  class Stage : IStaticEntity
+  class StageEntity : IStaticEntity
   {
-    public Shape Shape {get; set;}
+    public Shape Shape { get; set; }
     private int height = 100;
-    public Stage()
+    public StageEntity()
     {
       Shape = new RectangleShape(new Vector2f(WindowOptions.Width, height));
       Shape.Position = new Vector2f(0, WindowOptions.Height - height);

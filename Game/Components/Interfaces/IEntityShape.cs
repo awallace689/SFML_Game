@@ -6,7 +6,7 @@ using SFML.System;
 
 namespace Game.Components
 {
-    public interface IEntityShape
-    {     
-    }
+  public interface IEntityShape
+  {
+  }
 }

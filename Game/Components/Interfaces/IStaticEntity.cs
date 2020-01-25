@@ -6,7 +6,8 @@ using SFML.System;
 
 namespace Game.Components
 {
-  public interface IStaticEntity : IEntity
+  public interface IStaticEntity
   {
-  } 
+    Shape Shape { get; set; }
+  }
 }

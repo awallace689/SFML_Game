@@ -6,12 +6,12 @@ using SFML.System;
 
 namespace Game.Components
 {
-  public class Player : IEntity
+  public class PlayerEntity : IEntity
   {
     public Shape Shape { get; set; }
     public PlayerTransformer Transformer { get; set; }
 
-    public Player()
+    public PlayerEntity()
     {
       Shape = new RectangleShape(new Vector2f(40, 40));
       Shape.FillColor = Color.Yellow;
@@ -46,7 +46,7 @@ namespace Game.Components
         xConst * (dTime.AsMilliseconds() / WindowOptions.Delay),
         0
       );
-      
+
       return transf;
     }
 
